@@ -1,48 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Pebble City Changer</title>
-  <script type="text/javascript">
-    function setCity() {
-      // Get the city from the input
-      var city = document.getElementById('cityInput').value;
-
-      // Save the city to the Pebble settings
-      Pebble.setString('city', city);
-      
-      // Display confirmation message
-      document.getElementById('confirmation').innerHTML = 'City saved: ' + city;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Mood Tracker - Settings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      text-align: center;
     }
-
-    // On page load, get the current saved city from settings and display it
-    function loadCity() {
-      var currentCity = Pebble.getString('city') || 'Moscow';  // Default to Moscow if not set
-      document.getElementById('currentCity').innerHTML = 'Current City: ' + currentCity;
-      document.getElementById('cityInput').value = currentCity;  // Pre-fill the input field
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      width: 80%;
+      max-width: 250px;
     }
-
-    // Load city data when page is ready
-    window.onload = loadCity;
-  </script>
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
-<body style="text-align:center; font-family: Arial, sans-serif;">
-  <h1>Pebble City Changer</h1>
+<body>
+  <h1>Weather Mood Tracker</h1>
+  <p>Enter the city you want to track:</p>
 
-  <!-- Display the current city -->
-  <p id="currentCity" style="font-size: 18px; margin-top: 20px;"></p>
-
-  <!-- Input field for the user to type the city name -->
-  <input type="text" id="cityInput" placeholder="Enter City" style="font-size: 16px; padding: 10px; margin-top: 20px; width: 80%;">
-
+  <input type="text" id="cityInput" placeholder="Enter city name" value="Ahipara">
   <br><br>
+  <button id="saveButton">Save City</button>
 
-  <!-- Button to save the city -->
-  <button onclick="setCity()" style="font-size: 18px; padding: 10px 20px; cursor: pointer;">Save City</button>
-
-  <br><br>
-
-  <!-- Display the confirmation message -->
-  <p id="confirmation" style="font-size: 16px; color: green;"></p>
+  <script>
+    // This script saves the city name using Settings.option when the button is clicked
+    document.getElementById('saveButton').onclick = function() {
+      var city = document.getElementById('cityInput').value;
+      Settings.option('city', city); // Save the city using Settings.option
+      alert('City saved: ' + city); // Optionally, show a confirmation message
+    };
+  </script>
 </body>
 </html>
