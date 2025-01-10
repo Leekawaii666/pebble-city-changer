@@ -1,25 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Changer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select City</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <h1>Change City for Pebble App</h1>
-    <form id="city-form">
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" placeholder="Enter City Name" required>
-        <button type="submit">Submit</button>
-    </form>
-    <script>
-        document.getElementById('city-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var city = document.getElementById('city').value;
-            Pebble.sendAppMessage({ city: city }, function() {
-                alert('City updated to: ' + city);
-            });
+
+  <h1>Select Your City</h1>
+  
+  <p>Enter the name of your city:</p>
+  
+  <input type="text" id="cityInput" placeholder="Enter city name" value="">
+  
+  <button onclick="submitCity()">Submit</button>
+
+  <script>
+    function submitCity() {
+      // Get the entered city name
+      var cityName = document.getElementById('cityInput').value;
+      
+      // Send the city to Pebble via the settings API
+      if (cityName) {
+        Pebble.sendAppMessage({
+          'city': cityName
+        }, function() {
+          console.log('City sent successfully');
+        }, function() {
+          console.log('Error sending city');
         });
-    </script>
+      } else {
+        alert('Please enter a city name.');
+      }
+    }
+  </script>
 </body>
 </html>
