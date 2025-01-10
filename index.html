@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Changer</title>
+</head>
+<body>
+    <h1>Change City for Pebble App</h1>
+    <form id="city-form">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" placeholder="Enter City Name" required>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.getElementById('city-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var city = document.getElementById('city').value;
+            Pebble.sendAppMessage({ city: city }, function() {
+                alert('City updated to: ' + city);
+            });
+        });
+    </script>
+</body>
+</html>
