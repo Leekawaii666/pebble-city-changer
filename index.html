@@ -1,63 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Select City</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 20px;
-    }
-    input[type="text"] {
-      padding: 8px;
-      font-size: 16px;
-      margin-top: 10px;
-      width: 80%;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
-</head>
-<body>
+  <meta charset="utf-8">
+  <title>Pebble City Changer</title>
+  <script type="text/javascript">
+    function setCity() {
+      // Get the city from the input
+      var city = document.getElementById('cityInput').value;
 
-  <h1>Select Your City</h1>
-  
-  <p>Enter the name of your city:</p>
-  
-  <input type="text" id="cityInput" placeholder="Enter city name" value="">
-  
-  <button onclick="submitCity()">Submit</button>
-
-  <script>
-    function submitCity() {
-      // Get the entered city name
-      var cityName = document.getElementById('cityInput').value;
+      // Save the city to the Pebble settings
+      Pebble.setString('city', city);
       
-      // Send the city to Pebble via the settings API
-      if (cityName) {
-        Pebble.sendAppMessage({
-          'city': cityName
-        }, function() {
-          console.log('City sent successfully');
-        }, function() {
-          console.log('Error sending city');
-        });
-      } else {
-        alert('Please enter a city name.');
-      }
+      // Display confirmation message
+      document.getElementById('confirmation').innerHTML = 'City saved: ' + city;
     }
+
+    // On page load, get the current saved city from settings and display it
+    function loadCity() {
+      var currentCity = Pebble.getString('city') || 'Moscow';  // Default to Moscow if not set
+      document.getElementById('currentCity').innerHTML = 'Current City: ' + currentCity;
+      document.getElementById('cityInput').value = currentCity;  // Pre-fill the input field
+    }
+
+    // Load city data when page is ready
+    window.onload = loadCity;
   </script>
+</head>
+<body style="text-align:center; font-family: Arial, sans-serif;">
+  <h1>Pebble City Changer</h1>
+
+  <!-- Display the current city -->
+  <p id="currentCity" style="font-size: 18px; margin-top: 20px;"></p>
+
+  <!-- Input field for the user to type the city name -->
+  <input type="text" id="cityInput" placeholder="Enter City" style="font-size: 16px; padding: 10px; margin-top: 20px; width: 80%;">
+
+  <br><br>
+
+  <!-- Button to save the city -->
+  <button onclick="setCity()" style="font-size: 18px; padding: 10px 20px; cursor: pointer;">Save City</button>
+
+  <br><br>
+
+  <!-- Display the confirmation message -->
+  <p id="confirmation" style="font-size: 16px; color: green;"></p>
 </body>
 </html>
